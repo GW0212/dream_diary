@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>꿈 기록</title>
+  <link rel="icon" href="./assets/icons/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="./assets/icons/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <h1>꿈 기록</h1>
+      <div class="hero-moon" aria-hidden="true">🌙</div>
+      <p class="subtitle">오늘의 꿈을 한 줄로 남기면, 해몽을 알려드립니다.</p>
+    </header>
+
+    <main class="main">
+      <section class="card input-card">
+        <form id="form" class="form">
+          <label class="label">제목
+            <input id="title" class="input" placeholder="예: 푸른 바다 위를 나는 꿈" required>
+          </label>
+
+          <label class="label">날짜
+            <input id="date" type="date" class="input" required>
+          </label>
+
+          <div class="label">
+            <div class="row">
+              <span>태그</span>
+              <button class="chip-reset" type="button" id="clearTags">초기화</button>
+            </div>
+            <!-- Two-line tag grid -->
+            <div class="taggrid" id="taggrid_row1" aria-label="태그 1열"></div>
+            <div class="taggrid" id="taggrid_row2" aria-label="태그 2열"></div>
+          </div>
+
+          <label class="label">내용
+            <textarea id="content" rows="6" class="textarea" placeholder="장면, 인물, 감정, 대화 등을 편하게 적어주세요." required></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="submit" class="btn primary">기록 & 해몽 보기</button>
+            <button type="button" id="openArchive" class="btn ghost">내 보관함</button>
+          </div>
+          <p class="caption">※ 해몽은 참고용입니다. 중요한 결정은 현실의 맥락을 우선하세요.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">© <span id="year"></span> 꿈 기록</footer>
+  </div>
+
+  <!-- Result Modal (popup) -->
+  <dialog id="resultDlg">
+    <div class="modal solid">
+      <div class="modal-head">
+        <button class="iconbtn" id="backToHome" aria-label="뒤로">← 뒤로</button>
+        <h3 style="margin-left:8px">해몽 결과</h3>
+      </div>
+      <article class="card result-card">
+        <div class="result-head">
+          <div>
+            <h2 id="rTitle"></h2>
+            <div class="meta"><span id="rDate"></span> · <span id="rTags"></span></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn sm ghost" id="copy">공유복사</button>
+          </div>
+        </div>
+        <p id="rExcerpt" class="excerpt"></p>
+        <div class="grid2">
+          <div class="b block">
+            <h3>해몽 요약</h3>
+            <p id="rMeaning"></p>
+          </div>
+          <div class="b block">
+            <h3>오늘 조심할 점</h3>
+            <p id="rCaution"></p>
+          </div>
+          <div class="b block">
+            <h3>좋은 점</h3>
+            <p id="rGood"></p>
+          </div>
+          <div class="b block">
+            <h3>안좋은 점</h3>
+            <p id="rBad"></p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </dialog>
+
+  <!-- Archive Modal -->
+  <dialog id="archive">
+    <div class="modal solid">
+      <div class="modal-head">
+        <h3>내 꿈 보관함</h3>
+        <button class="iconbtn" id="closeArchive" aria-label="닫기">×</button>
+      </div>
+      <div class="modal-controls">
+        <input id="q" class="input" placeholder="검색 (제목/내용/태그)">
+        <select id="order" class="input">
+          <option value="date_desc">최신순</option>
+          <option value="date_asc">오래된순</option>
+          <option value="title_asc">제목 A→Z</option>
+          <option value="title_desc">제목 Z→A</option>
+        </select>
+        <select id="tagFilter" class="input">
+          <option value="all">전체 태그</option>
+        </select>
+        <button id="exportBtn" class="btn ghost sm">내보내기</button>
+        <input type="file" id="importFile" accept="application/json" hidden>
+        <button id="importBtn" class="btn ghost sm">가져오기</button>
+      </div>
+      <div id="list" class="list"></div>
+      <div id="empty" class="empty" style="display:none;">기록이 없습니다.</div>
+    </div>
+  </dialog>
+
+  <template id="rowTpl">
+    <article class="row">
+      <div class="row-main">
+        <div class="row-title"></div>
+        <div class="row-meta"></div>
+      </div>
+      <div class="row-actions">
+        <button class="btn sm ghost view">보기</button>
+        <button class="btn sm danger del">삭제</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
